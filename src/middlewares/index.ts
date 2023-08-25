@@ -4,4 +4,4 @@ import { idExist } from './idExists.middlewares';
 import { handleErrors } from "./handleErrors"
 import { validateBody } from "./validateBody"
 
-export{ handleErrors, validateBody, idExist, movieExists}
+export{ handleErrors, validateBody, idExist, movieExists, pagination}

@@ -1,12 +1,13 @@
-import { Router } from "express"
+import { Router, application } from "express"
 import { createMovie, deleteMovie, readAllMovies, updateMovie } from "./controllers/controller"
-import { idExist, movieExists, validateBody } from "./middlewares"
+import { idExist, movieExists, pagination, validateBody } from "./middlewares"
 import { movieWithoutId } from "./schema/movie.schema"
+
 
 export const moviesRouter = Router()
 
 moviesRouter.post("", validateBody(movieWithoutId), movieExists, createMovie)
-moviesRouter.get("", readAllMovies)
+moviesRouter.get("", pagination, readAllMovies)
 
 moviesRouter.use("/:id", idExist)
 

@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { deleteMovieById, listAllRegisteredMovies, movieById, registerNewMovie } from "../services/movies.services"
 import { Movie } from "../entities"
+import { Pagination } from "../interfaces/pagination.interfaces"
 
 //Cadastra um novo filme
 export const createMovie = async (req: Request, res: Response): Promise<Response> => {
@@ -10,7 +11,8 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 
 //Lista todos os filmes cadastrados
 export const readAllMovies = async (req: Request, res: Response): Promise<Response> => {
-  const movies: Movie[] = await listAllRegisteredMovies()
+  const { paginationObj } = res.locals
+  const movies: Pagination = await listAllRegisteredMovies(paginationObj) 
   return res.status(200).json(movies)
 }
 

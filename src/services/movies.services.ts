@@ -1,29 +1,31 @@
 import { DeepPartial, Repository } from "typeorm"
-import { MovieInterface, MovieWithoutId } from "../interfaces/movies.interface";
+import { MovieInterface, MovieRead, MovieWithoutId } from "../interfaces/movies.interface";
 import { Movie } from "../entities";
 import { AppDataSource } from "../data-source";
 import AppError from "../errors/App.errors";
+import { Pagination, PaginationParams } from "../interfaces/pagination.interfaces";
 
 //Cadastra um novo filme
 export const registerNewMovie = async (payload: MovieWithoutId): Promise<MovieInterface> => {
-  //Acima é adicionado as interfaces do corpo recebido e oq se espera dele
-  //A baixo o Movie é referente a classe de entities
-  //AppDataSource é referente a database
   const movieRepo: Repository<Movie> = AppDataSource.getRepository(Movie)
-  //cria uma nova instancia da Entity
   const movie: Movie = movieRepo.create(payload)
-  //Salva no banco de dados a instancia que acabou de ser criada com as informações do usuário
+ 
   await movieRepo.save(movie);
 
   return movie
 }
 
 //Lista todos os filmes cadastrados
-export const listAllRegisteredMovies = async (): Promise<MovieInterface[]> => {
-    //pega os dados que estão no repoistorio
+export const listAllRegisteredMovies = async ({nextPage, page, perPage, prevPage}: PaginationParams): Promise<Pagination> => {
   const movieRepo: Repository<Movie> = AppDataSource.getRepository(Movie)
-  //por meio do find busca-se todos os dados que estão na tabela
-  return await movieRepo.find()
+  const [movies, count] = await movieRepo.findAndCount({skip:page, take:perPage})
+
+ return {
+  prevPage: page <=1 ? null : prevPage, //paginationParams.prevPage, 
+  nextPage: count - page <= perPage ? null : nextPage,// paginationParams.nextPage,
+  count, 
+  data: movies,
+ }
 }
 
 //Atualiza o filme passado por id

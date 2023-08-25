@@ -1,14 +1,14 @@
-import { MovieInterface } from "./movies.interface"
+import {  MovieRead } from "./movies.interface"
 
 export type Pagination = {
-    prevPage: string | null //pagina anterior
-    nextPage: string | null //Pagina posterior
-    count: number   //quantidade de dados do banco de dados
-    data: Array<MovieInterface>   //array dos produtos
+    prevPage: string | null 
+    nextPage: string | null 
+    count: number  
+    data: MovieRead  
 }
 
 export type PaginationParams = {
-    page: number    //Parametros que vao vir na requisição
+    page: number    
     perPage: number 
     prevPage: string | null
     nextPage: string | null
