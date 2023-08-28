@@ -12,4 +12,6 @@ export type PaginationParams = {
     perPage: number 
     prevPage: string | null
     nextPage: string | null
+    order: string
+    sort: string
 }

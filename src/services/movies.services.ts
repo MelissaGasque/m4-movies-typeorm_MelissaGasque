@@ -16,9 +16,9 @@ export const registerNewMovie = async (payload: MovieWithoutId): Promise<MovieIn
 }
 
 //Lista todos os filmes cadastrados
-export const listAllRegisteredMovies = async ({nextPage, page, perPage, prevPage}: PaginationParams): Promise<Pagination> => {
+export const listAllRegisteredMovies = async ({nextPage, page, perPage, prevPage, order, sort}: PaginationParams): Promise<Pagination> => {
   const movieRepo: Repository<Movie> = AppDataSource.getRepository(Movie)
-  const [movies, count] = await movieRepo.findAndCount({skip:page, take:perPage})
+  const [movies, count] = await movieRepo.findAndCount({order:{[sort]:order}, skip:page, take:perPage})
 
  return {
   prevPage: page <=1 ? null : prevPage, //paginationParams.prevPage, 
