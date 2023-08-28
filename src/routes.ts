@@ -10,5 +10,6 @@ moviesRouter.get("", pagination, readAllMovies)
 
 moviesRouter.use("/:id", idExist)
 
-moviesRouter.patch("/:id", validateBody(productUpdateSchema), updateMovie)
+moviesRouter.patch("/:id", validateBody(productUpdateSchema), movieExists, updateMovie)
 moviesRouter.delete("/:id", deleteMovie)
+ 
